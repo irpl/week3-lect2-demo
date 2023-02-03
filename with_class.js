@@ -34,9 +34,21 @@ class Todo_Class {
 
   done_undone(x) {
     const selectedTodoIndex = todoObjectList.findIndex((item) => item.id == x);
-    console.log(todoObjectList[selectedTodoIndex].isDone);
+    // console.log(selectedTodoIndex);
+    if (todoObjectList[selectedTodoIndex] == undefined) return;
+    // console.log(todoObjectList[selectedTodoIndex].isDone);
     todoObjectList[selectedTodoIndex].isDone == false ? (todoObjectList[selectedTodoIndex].isDone = true) : (todoObjectList[selectedTodoIndex].isDone = false);
-    this.display();
+
+    // console.log(todoObjectList[selectedTodoIndex]);
+
+    var id = todoObjectList[selectedTodoIndex].id;
+    fetch("http://localhost:8000/todos/" + id, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todoObjectList[selectedTodoIndex]),
+    }).then(() => this.display());
   }
 
   deleteElement(z) {
@@ -44,7 +56,9 @@ class Todo_Class {
 
     todoObjectList.splice(selectedDelIndex, 1);
 
-    this.display();
+    fetch("http://localhost:8000/todos/" + z, {
+      method: "DELETE",
+    }).then(() => this.display());
   }
 
   display() {
