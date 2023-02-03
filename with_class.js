@@ -43,11 +43,11 @@ class Todo_Class {
 
     var id = todoObjectList[selectedTodoIndex].id;
     fetch("http://localhost:8000/todos/" + id, {
-      method: "PUT",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(todoObjectList[selectedTodoIndex]),
+      body: JSON.stringify({ isDone: todoObjectList[selectedTodoIndex].isDone }),
     }).then(() => this.display());
   }
 
